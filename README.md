@@ -1,7 +1,7 @@
 # tokyo-tech-lab-test
 install prompt-sync trước khi chạy:  npm i prompt-sync
 
-# Diablo (logic)
+# Diablo
 Mark đang chơi Diablo II.
 
 Để qua được màn chơi, người chơi cần giết hết m con quái vật trong map. Mark dùng 1 thanh kiếm có độ bền d. Mỗi lần giết 1 con quái vật thì độ bền vũ khí giảm k đơn vị. Mark có thể sử dụng chức năng sửa đồ để phục hồi độ bền của thanh kiếm về như mới ( d đơn vị); mỗi lần sửa cần tốn c gold. Tuy nhiên nếu 1 vũ khí có độ bền giảm về 0 hoặc nhỏ hơn thì vũ khí đó sẽ biến mất, không thể sửa được nữa.
