@@ -1,45 +1,81 @@
 const prompt = require('prompt-sync')();
 
+
+let inputIsValid = false;
+do {
+    let NumberLines = prompt("Input: ");
+    let testCases = [];
+    inputIsValid = validate(NumberLines);
+
+    //Kiểm tra valid input
+    if (!inputIsValid) {
+        console.log("Sai input");
+    } else {
+        for (let i = 0; i < NumberLines; i++) {
+            let testCase = prompt();
+            inputIsValid = (NumberLines, testCase)
+            if (validate) {
+                testCases.push(testCase);
+            } else {
+                console.log("sai input");
+                break;
+            }
+
+        }
+        let output = checkBalance(testCases);
+        console.log(output.join('\n'));
+        inputIsValid = false
+    }
+} while (!inputIsValid)
+
+function checkBalance(testCases) {
+    let results = [];
+    for (let i = 0; i < testCases.length; i++) {
+        results.push(isBalanced(testCases[i]) ? 'true' : 'false');
+    }
+    return results;
+}
+
 function isBalanced(input) {
-    const stack = [];
-    const openingBrackets = ['{', '[', '('];
-    const closingBrackets = ['}', ']', ')'];
+    let arrBalanced = [];
+    // Các dấu mở và đóng tương ứng
+    let openingBrackets = ['{', '[', '('];
+    let closingBrackets = ['}', ']', ')'];
 
     for (let i = 0; i < input.length; i++) {
-        const currentChar = input[i];
-
+        let currentChar = input[i];
+        // Kiểm tra xem có phải dấu mở hay không
         if (openingBrackets.includes(currentChar)) {
-            stack.push(currentChar);
+            arrBalanced.push(currentChar);
         } else if (closingBrackets.includes(currentChar)) {
-            const lastOpeningBracket = stack.pop();
+            // Nếu là dấu đóng, lấy dấu mở tương ứng từ mảng
+            let lastOpeningBracket = arrBalanced.pop();
 
-            if (!lastOpeningBracket ||
-                openingBrackets.indexOf(lastOpeningBracket) !== closingBrackets.indexOf(currentChar)) {
+            // Kiểm tra tính hợp lệ của cặp ngoặc
+            if (!lastOpeningBracket || openingBrackets.indexOf(lastOpeningBracket) !== closingBrackets.indexOf(currentChar)) {
+                return false; // Nếu không hợp lệ, trả về false
+            }
+        }
+    }
+    return arrBalanced.length === 0;
+}
+
+
+function validate(N, strings) {
+
+    if (N) {
+        if (N <= 0 || N > 100) {
+            return false;
+        }
+    }
+
+    if (strings) {
+        for (let i = 0; i < N; i++) {
+            if (strings[i].length > 100000) {
                 return false;
             }
         }
     }
 
-    return stack.length === 0;
+    return true;
 }
-
-function checkBalance(testCases) {
-    const results = [];
-
-    for (let i = 0; i < testCases.length; i++) {
-        results.push(isBalanced(testCases[i]) ? 'true' : 'false');
-    }
-
-    return results;
-}
-
-const NumberLines = prompt("Input: ");
-const testCases = [];
-
-for (let i = 0; i < NumberLines; i++) {
-    const testCase = prompt(`Enter test case #${i + 1}: `);
-    testCases.push(testCase);
-}
-
-const output = checkBalance(testCases);
-console.log(output.join('\n'));

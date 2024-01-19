@@ -1,28 +1,50 @@
 const prompt = require('prompt-sync')();
 
-while (true) {
+const isValidInput = (m, d, k, c) =>
+    Number.isInteger(m) &&
+    Number.isInteger(d) &&
+    Number.isInteger(k) &&
+    Number.isInteger(c) &&
+    0 <= m && m <= 1000 &&
+    0 <= k && k <= 1000 &&
+    0 <= c && c <= 1000 &&
+    0 < d && d <= 1000;
+
+let inputIsValid = false;
+
+do {
     let inputString = prompt("Input: ");
     let inputArray = inputString.split(' ');
 
-    let m = parseInt(inputArray[0], 10); // Số lượng quái
-    let d = parseInt(inputArray[1], 10); // độ bền
-    let k = parseInt(inputArray[2], 10); // Đơn vị giảm độ bền
-    let c = parseInt(inputArray[3], 10); // vàng để sửa
+    let m = parseInt(inputArray[0], 10); // số lượng quái cần giết
+    let d = parseInt(inputArray[1], 10); // độ bền của kiếm
+    let k = parseInt(inputArray[2], 10); // Đơn vị giảm độ bền khi giết 1 quái
+    let c = parseInt(inputArray[3], 10); // số vàng để sửa kiếm
 
-    //Tính số lượng một lần có thể giết
-    let killCount = Math.floor(d / k)
+    let initialDurability = d // gán độ bền ban đầu
 
-    // //Tính số lần phải sửa lại kiếm
-    let repairCount = Math.floor(m / killCount);
+    inputIsValid = isValidInput(m, d, k, c);
 
-    if (d % k !== 0) {
-        repairCount -= 1
+    if (!inputIsValid) {
+        console.log("Sai input");
+    } else {
+        inputIsValid = false
+        // Kiểm tra xem có thể qua màn không và xử lý logic tiếp theo
+        if (d <= k && d > 1) {
+            console.log("-1");
+        } else {
+            // Số lần sửa thanh kiếm
+            let repairCount = 0;
+            while (m > 0) {
+                // Kiểm tra xem có phải sửa lại kiếm không
+                if (d - k <= 0 && m > 1) {
+                    repairCount++;
+                    d = initialDurability;
+                }
+                m = m - 1;
+                d -= k;
+            }
+            console.log(repairCount * c);
+        }
     }
-
-    if(m % killCount !== 0){
-        repairCount += 1
-    }
-
-    let totalGold = Math.floor(repairCount * c);
-    console.log(totalGold)
-}
+} while (!inputIsValid);
